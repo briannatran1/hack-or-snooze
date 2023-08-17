@@ -53,26 +53,25 @@ function putStoriesOnPage() {
 
 /** Gets values of form from user and adds new story to story list*/
 
-function submitFormAndAddStory() {
-  const authorInput = $('#author-text').val();
-  const titleInput = $('#title-text').val();
-  const urlInput = $('#url-text').val();
+async function submitFormAndAddStory() {
+  const authorInput = $('#author-text');
+  const titleInput = $('#title-text');
+  const urlInput = $('#url-text');
 
-  const newStory = { authorInput, titleInput, urlInput };
+  //keys have to match in story var in addStory method
+  const newStoryData = {
+    author: authorInput.val(),
+    title: titleInput.val(),
+    url: urlInput.val()
+  };
 
-  const addedStory = newStory.addStory();
-  console.log(addedStory);
+  const addedStory = await storyList.addStory(currentUser, newStoryData);
 
-  $allStoriesList.append(addedStory);
-  clearFormData();
-}
+  putStoriesOnPage(addedStory);
 
-$('#submit-button').on('click', this.submitFormAndAddStory.bind(this));
-
-/** Clears input for form */
-
-function clearFormData() {
   authorInput.val('');
   titleInput.val('');
   urlInput.val('');
 }
+
+$('#submit-button').on('click', this.submitFormAndAddStory.bind(this));
