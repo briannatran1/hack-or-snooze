@@ -51,21 +51,20 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** */
+/** Gets values of form from user and adds new story to story list*/
 
 function submitFormAndAddStory() {
   const authorInput = $('#author-text').val();
   const titleInput = $('#title-text').val();
   const urlInput = $('#url-text').val();
 
-  clearFormData();
-
   const newStory = { authorInput, titleInput, urlInput };
 
-  const storyMade = $(`<li>`);
+  const addedStory = newStory.addStory();
+  console.log(addedStory);
 
-
-  newStory.addStory();
+  $allStoriesList.append(addedStory);
+  clearFormData();
 }
 
 $('#submit-button').on('click', this.submitFormAndAddStory.bind(this));
