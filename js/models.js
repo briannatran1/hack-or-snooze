@@ -76,7 +76,7 @@ class StoryList {
   async addStory(user, newStory) {
     const story = { title: newStory.title, author: newStory.author, url: newStory.url };
     const token = user.loginToken;
-    console.log('user =', user);
+
     const response = await fetch(`${BASE_URL}/stories`, {
       method: "POST",
       body: JSON.stringify({ token, story }),
@@ -84,9 +84,13 @@ class StoryList {
         "Content-Type": "application/json"
       }
     });
-    const responseData = await response.json();
+    const responseData = await response.json(); // obj in an obj
+    // console.log('responseData = ', responseData);
+    const createdStory = new Story(responseData.story);
+    // console.log(createdStory);
+    this.stories.unshift(createdStory);
 
-    return new Story(this.addStory);
+    return createdStory;
   }
 }
 
