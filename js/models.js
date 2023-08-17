@@ -74,14 +74,19 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    const story = { title: newStory.title, author: newStory.author, url: newStory.url };
+    const token = user.loginToken;
+    console.log('user =', user);
     const response = await fetch(`${BASE_URL}/stories`, {
-      headers:{
+      method: "POST",
+      body: JSON.stringify({ token, story }),
+      headers: {
         "Content-Type": "application/json"
       }
-      method: "POST",
-      body:
     });
+    const responseData = await response.json();
 
+    return new Story(this.addStory);
   }
 }
 
