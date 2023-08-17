@@ -38,7 +38,7 @@ function updateNavOnLogin() {
 }
 
 /**
- * when clicked it shows the submit new story form
+ * When submit nav-link is clicked, shows the submit new story form
  *
  */
 function submitNewStory(evt) {
