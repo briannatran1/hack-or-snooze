@@ -50,3 +50,30 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** */
+
+function submitFormAndAddStory() {
+  const authorInput = $('#author-text').val();
+  const titleInput = $('#title-text').val();
+  const urlInput = $('#url-text').val();
+
+  clearFormData();
+
+  const newStory = { authorInput, titleInput, urlInput };
+
+  const storyMade = $(`<li>`);
+
+
+  newStory.addStory();
+}
+
+$('#submit-button').on('click', this.submitFormAndAddStory.bind(this));
+
+/** Clears input for form */
+
+function clearFormData() {
+  authorInput.val('');
+  titleInput.val('');
+  urlInput.val('');
+}
