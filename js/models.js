@@ -222,10 +222,12 @@ class User {
 
   /** Contacts API to submit favorite story in the form of a POST request */
 
-  static async requestFavorite(username, storyId) {
+  //for bug log: called static method on currentUser instead of User Class
+
+  async requestFavorite(username, storyId) {
     const favoritesResponse = await fetch(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
       method: "POST",
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ token: this.loginToken }),
       headers: {
         "Content-Type": "application/json"
       }
@@ -239,9 +241,8 @@ class User {
 
   /** Takes response from POST request and adds to favorites array. */
 
-  static async addFavorite(storyInstance) {
-    const firstStory = storyList.stories[0].storyId;
-    const favoritesData = await this.requestFavorite(this.username, firstStory);
+  async addFavorite(storyInstance) {
+    const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
 
     this.favorites.push(favoritesData);
 
@@ -249,7 +250,7 @@ class User {
 
   /** Allows user to un-favorite a story if logged in. */
 
-  static async removeFavorite(username, storyId) {
+  async removeFavorite(username, storyId) {
 
   }
 }
