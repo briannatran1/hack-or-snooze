@@ -234,7 +234,7 @@ class User {
     });
     const favoritesResponseData = await favoritesResponse.json();
 
-    console.log('favoriteResponseData = ', favoritesResponseData);
+    // console.log('favoriteResponseData = ', favoritesResponseData);
 
     return favoritesResponseData;
   }
@@ -248,11 +248,16 @@ class User {
 
   }
 
+  $(".list-item").on('click', ".bi-star", this.addFavorite.bind(currentUser){
+    $(evt).preventDefault();
+    $(".bi-star").css("background-color", "tomato");
+  });
+
   /** Allows user to un-favorite a story if logged in. */
 
   async removeFavorite(storyInstance) {
-    const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
+  const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
 
-    this.favorites.pop();
-  }
+  this.favorites.pop();
+}
 }
