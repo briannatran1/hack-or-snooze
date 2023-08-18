@@ -38,12 +38,15 @@ function updateNavOnLogin() {
 }
 
 /**
- * When submit nav-link is clicked, shows the submit new story form
+ * When submit nav-link is clicked, shows the submit new story form.
  *
  */
-function submitNewStory(evt) {
+function navSubmitNewStory(evt) {
+  console.debug("submitNewStory", evt);
   evt.preventDefault();
+  hidePageComponents();
   $storyForm.show();
+  $allStoriesList.show();
 }
 
-$navSubmit.on("click", submitNewStory);
+$navSubmit.on("click", navSubmitNewStory);

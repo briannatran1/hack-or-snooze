@@ -26,6 +26,10 @@ class Story {
   getHostName() {
     return new URL(this.url).hostname;
   }
+
+  static getStoryId() {
+    return this.storyId;
+  }
 }
 
 
@@ -73,7 +77,7 @@ class StoryList {
    */
 
   async addStory(user, story) {
-    // remember what not to do:   const story = { title: newStory.title, author: newStory.author, url: newStory.url };
+    // remember what not to do: const story = { title: newStory.title, author: newStory.author, url: newStory.url };
     const token = user.loginToken;
 
     const response = await fetch(`${BASE_URL}/stories`, {
@@ -214,5 +218,34 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  /** Contacts API to submit favorite story in the form of a POST request */
+
+  static async requestFavorite(username, storyId) {
+    const favoritesResponse = await fetch(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
+      method: "POST",
+      body: JSON.stringify({ token }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const favoritesResponseData = await favoritesResponse.json();
+
+    return favoritesResponseData;
+  }
+
+  /** Takes response from POST request and adds to favorites array. */
+
+  static async addFavorite() {
+    const favoritesData = await this.requestFavorite(this.usesrname, storyId);
+
+    this.favorites.push(/*instance of Story*/);
+  }
+
+  /** Allows user to un-favorite a story if logged in. */
+
+  static async removeFavorite(username, storyId) {
+
   }
 }

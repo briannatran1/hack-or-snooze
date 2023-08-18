@@ -59,7 +59,7 @@ $signupForm.on("submit", signup);
 function logout(evt) {
   console.debug("logout", evt);
   localStorage.clear();
-  location.reload();
+  location.reload(); // reloads current url => like refresh button
 }
 
 $navLogOut.on("click", logout);
