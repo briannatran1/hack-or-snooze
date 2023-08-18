@@ -232,15 +232,19 @@ class User {
     });
     const favoritesResponseData = await favoritesResponse.json();
 
+    console.log('favoriteResponseData = ', favoritesResponseData);
+
     return favoritesResponseData;
   }
 
   /** Takes response from POST request and adds to favorites array. */
 
-  static async addFavorite() {
-    const favoritesData = await this.requestFavorite(this.usesrname, storyId);
+  static async addFavorite(storyInstance) {
+    const firstStory = storyList.stories[0].storyId;
+    const favoritesData = await this.requestFavorite(this.username, firstStory);
 
-    this.favorites.push(/*instance of Story*/);
+    this.favorites.push(favoritesData);
+
   }
 
   /** Allows user to un-favorite a story if logged in. */
