@@ -50,3 +50,13 @@ function navSubmitNewStory(evt) {
 }
 
 $navSubmit.on("click", navSubmitNewStory);
+
+/** When favorites tab is clicked in navbar, show favorited stories */
+function navFavoriteStories(evt) {
+  console.debug("navFavoriteStories", evt);
+  evt.preventDefault();
+  hidePageComponents();
+  //FIXME: show favorite stories
+}
+
+$navFavorites.on("click", navFavoriteStories);
