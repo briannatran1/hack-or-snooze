@@ -243,21 +243,28 @@ class User {
 
   async addFavorite(storyInstance) {
     const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
+    console.log('favoritesData =', favoritesData);
 
-    this.favorites.push(favoritesData);
+    this.favorites.push(favoritesData.user);
 
   }
-
-  $(".list-item").on('click', ".bi-star", this.addFavorite.bind(currentUser){
-    $(evt).preventDefault();
-    $(".bi-star").css("background-color", "tomato");
-  });
 
   /** Allows user to un-favorite a story if logged in. */
 
   async removeFavorite(storyInstance) {
-  const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
+    const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
 
-  this.favorites.pop();
+    console.log('favoritesData for remove =', favoritesData);
+
+    this.favorites.pop();
+  }
 }
-}
+
+$(".list-item").on('click', ".bi-star", function (evt) {
+  evt.preventDefault();
+  $(evt.target).css("background-color", "tomato");
+
+  currentUser.addFavorite(storyInstance);
+  console.log('clicked star');
+});
+
