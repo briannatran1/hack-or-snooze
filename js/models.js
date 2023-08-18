@@ -24,8 +24,7 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return new URL(this.url).hostname;
   }
 }
 
@@ -73,8 +72,8 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, newStory) {
-    const story = { title: newStory.title, author: newStory.author, url: newStory.url };
+  async addStory(user, story) {
+    // remember what not to do:   const story = { title: newStory.title, author: newStory.author, url: newStory.url };
     const token = user.loginToken;
 
     const response = await fetch(`${BASE_URL}/stories`, {
@@ -84,9 +83,9 @@ class StoryList {
         "Content-Type": "application/json"
       }
     });
-    const responseData = await response.json(); // obj in an obj
+    const storyData = await response.json(); // obj in an obj
     // console.log('responseData = ', responseData);
-    const createdStory = new Story(responseData.story);
+    const createdStory = new Story(storyData.story);
     // console.log(createdStory);
     this.stories.unshift(createdStory);
 

@@ -23,6 +23,7 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  console.log(hostName);
   return $(`
       <li id="${story.storyId}">
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -53,7 +54,9 @@ function putStoriesOnPage() {
 
 /** Gets values of form from user and adds new story to story list*/
 
-async function submitFormAndAddStory() {
+async function submitFormAndAddStory(evt) {
+  evt.preventDefault();
+
   const authorInput = $('#author-text');
   const titleInput = $('#title-text');
   const urlInput = $('#url-text');
@@ -67,11 +70,12 @@ async function submitFormAndAddStory() {
 
   const addedStory = await storyList.addStory(currentUser, newStoryData);
 
-  putStoriesOnPage(addedStory);
+  debugger;
+  $allStoriesList.prepend(generateStoryMarkup(addedStory));
 
   authorInput.val('');
   titleInput.val('');
   urlInput.val('');
 }
 
-$('#submit-button').on('click', this.submitFormAndAddStory.bind(this));
+$('#submit-button').on('click', submitFormAndAddStory);
