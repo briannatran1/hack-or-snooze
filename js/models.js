@@ -27,8 +27,11 @@ class Story {
     return new URL(this.url).hostname;
   }
 
-  static getStoryId() {
-    return this.storyId;
+  //bug log: cannot use this keyword
+  /** Returning id of story */
+
+  static getStoryId(storyId) {
+    return storyId;
   }
 }
 
@@ -225,6 +228,7 @@ class User {
   //for bug log: called static method on currentUser instead of User Class
 
   async requestFavorite(username, storyId) {
+    // need to implement? Story.getStoryId();
     const favoritesResponse = await fetch(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
       method: "POST",
       body: JSON.stringify({ token: this.loginToken }),
@@ -234,36 +238,52 @@ class User {
     });
     const favoritesResponseData = await favoritesResponse.json();
 
-    // console.log('favoriteResponseData = ', favoritesResponseData);
-
     return favoritesResponseData;
   }
 
+  //FIXME: adds inputs
   /** Takes response from POST request and adds to favorites array. */
 
   async addFavorite(storyInstance) {
     const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
-    // console.log('favoritesData =', favoritesData);
 
     this.favorites.push(favoritesData.user);
 
   }
 
+  /** Contacts API to delete favorited story. */
+
+  async deleteFavorite(username, storyId) {
+    const favoritesResponse = await fetch(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
+      method: "DELETE",
+      body: JSON.stringify({ token: this.loginToken }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const favoritesResponseData = await favoritesResponse.json();
+
+    return favoritesResponseData;
+  }
+
   /** Allows user to un-favorite a story if logged in. */
 
   async removeFavorite(storyInstance) {
-    const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
+    const favoritesData = await this.deleteFavorite(this.username, storyInstance.storyId);
 
-    // console.log('favoritesData for remove =', favoritesData);
+    console.log('favoritesData for delete =', favoritesData);
 
-    this.favorites.pop();
+    //FIXME: splice or pop?
+
+    this.favorites.splice(favoritesData.user.favorites, 1);
   }
 }
 
 $("#all-stories-list").on('click', ".bi-star", makeFavoriteButton);
 
+//FIXME: MOVE THIS TO STORIES.JS
 /**
- * change color of targeted story's star and adds story instance to favorites array
+ * Change color of targeted story's star and adds story instance to favorites array
  */
 
 function makeFavoriteButton(evt) {
@@ -271,7 +291,7 @@ function makeFavoriteButton(evt) {
 
   $(evt.target).css("color", "tomato");
 
-  currentUser.addFavorite(evt.target);
-  console.log('this is evt.target=', evt.target);
+  currentUser.addFavorite($(evt.target).closest('li').attr("id"));
+
 }
 
