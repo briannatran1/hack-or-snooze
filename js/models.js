@@ -243,7 +243,7 @@ class User {
 
   async addFavorite(storyInstance) {
     const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
-    console.log('favoritesData =', favoritesData);
+    // console.log('favoritesData =', favoritesData);
 
     this.favorites.push(favoritesData.user);
 
@@ -254,17 +254,24 @@ class User {
   async removeFavorite(storyInstance) {
     const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
 
-    console.log('favoritesData for remove =', favoritesData);
+    // console.log('favoritesData for remove =', favoritesData);
 
     this.favorites.pop();
   }
 }
 
-$(".list-item").on('click', ".bi-star", function (evt) {
-  evt.preventDefault();
-  $(evt.target).css("background-color", "tomato");
+$("#all-stories-list").on('click', ".bi-star", makeFavoriteButton);
 
-  currentUser.addFavorite(storyInstance);
-  console.log('clicked star');
-});
+/**
+ * change color of targeted story's star and adds story instance to favorites array
+ */
+
+function makeFavoriteButton(evt) {
+  evt.preventDefault();
+
+  $(evt.target).css("color", "tomato");
+
+  currentUser.addFavorite(evt.target);
+  console.log('this is evt.target=', evt.target);
+}
 
