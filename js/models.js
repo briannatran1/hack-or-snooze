@@ -250,7 +250,9 @@ class User {
 
   /** Allows user to un-favorite a story if logged in. */
 
-  async removeFavorite(username, storyId) {
+  async removeFavorite(storyInstance) {
+    const favoritesData = await this.requestFavorite(this.username, storyInstance.storyId);
 
+    this.favorites.pop();
   }
 }
