@@ -30,8 +30,10 @@ class Story {
   //bug log: cannot use this keyword
   /** Returning id of story */
 
-  static getStoryId(storyId) {
-    return storyId;
+  static async getStoryId(storyId) {
+    const response = await fetch(`${BASE_URL}/stories/${storyId}`);
+    const storyResponse = await response.json();
+    return storyResponse;
   }
 }
 
@@ -228,7 +230,6 @@ class User {
   //for bug log: called static method on currentUser instead of User Class
 
   async requestFavorite(username, storyId) {
-    // need to implement? Story.getStoryId();
     const favoritesResponse = await fetch(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
       method: "POST",
       body: JSON.stringify({ token: this.loginToken }),
@@ -291,7 +292,9 @@ function makeFavoriteButton(evt) {
 
   $(evt.target).css("color", "tomato");
 
-  currentUser.addFavorite($(evt.target).closest('li').attr("id"));
 
+
+  // console.log(currentUser.addFavorite(Story.getStoryId($(evt.target).closest('li').attr("id"))));
+  console.log((Story.getStoryId($(evt.target).closest('li').attr("id"))));
 }
 
